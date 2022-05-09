@@ -1,5 +1,5 @@
-﻿using LudoApplication.GameItems;
-using System;
+﻿using LudoApplication.GameApplication;
+using LudoApplication.Players;
 
 namespace LudoApplication
 {
@@ -7,12 +7,9 @@ namespace LudoApplication
     {
         static void Main(string[] args)
         {
-            Gameboard gb = new();
-
-            for (int i = 0; i < gb.Board.Length; i++)
-            {
-                Console.WriteLine(gb.Board[i]);
-            }
+            Game g = new();
+            g.InitialRoll();
+            g.MainGame();
         }
     }
 }
