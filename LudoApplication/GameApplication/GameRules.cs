@@ -15,7 +15,7 @@ namespace LudoApplication.GameApplication
              */
             for (int i = t.Position; i < t.Position + moves - 1; i++)
             {
-                if (gb.Board[i] != 0)
+                if (gb.Board[i] != '\0')
                 {
                     return false;
                 }

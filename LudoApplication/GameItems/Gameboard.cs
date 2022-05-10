@@ -2,13 +2,13 @@
 {
     public class Gameboard
     {
-        private int[] board;
+        private char[] board;
 
         public Gameboard()
         {
-            Board = new int[52];
+            Board = new char[52];
         }
 
-        public int[] Board { get => board; set => board = value; }
+        public char[] Board { get => board; set => board = value; }
     }
 }
