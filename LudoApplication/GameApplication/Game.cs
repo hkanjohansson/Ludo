@@ -33,19 +33,37 @@ namespace LudoApplication.GameApplication
             /*
              * Press enter to roll the die
              */
-            int initRoll = int.MinValue;
+            int[] initRoll = new int[4];
             for (int i = 0; i < NUMBER_OF_PLAYERS; i++)
             {
-                Console.WriteLine("Press enter to roll the die");
+                Console.WriteLine($"Player {i + 1}, press enter to roll the die: ");
                 Console.ReadLine();
                 int dieRoll = die.Roll();
-
-                Console.WriteLine($"You rolled a: {dieRoll}.");
-                if (dieRoll > initRoll)
+                Console.WriteLine($"You rolled a: {dieRoll}\n");
+                
+                for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
                 {
-                    initRoll = dieRoll;
+                    if (i != j)
+                    {
+                        while (dieRoll == initRoll[j])
+                        {
+                            Console.WriteLine("Press enter to roll the die");
+                            Console.ReadLine();
+                            dieRoll = die.Roll();
+                            Console.WriteLine($"You rolled a: {dieRoll}\n");
+                        }
+                    }
+                    
+                }
+                
+                
+                if (dieRoll > initRoll[i])
+                {
+                    initRoll[i] = dieRoll;
                     turn = i;
                 }
+
+                
             }
 
             Console.WriteLine($"Player {turn + 1} to start.");
@@ -55,14 +73,24 @@ namespace LudoApplication.GameApplication
         {
             while (true)
             {
-                Console.WriteLine($"Player {PlayerTurn(turn) + 1} turn to roll\n");
-                TokenToMove(out int tokenChoice, out Player p, out Token t);
+                Console.WriteLine($"\nPlayer {PlayerTurn(turn) + 1} turn to roll");
+                Console.WriteLine("Press enter to roll the die: ");
+                Console.ReadLine();
                 int moves = die.Roll();
-                p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb));
+                Console.WriteLine($"You rolled: {moves}\n");
+
+                TokenToMove(out int tokenChoice, out Player p, out Token t);
+
 
                 if (t.Home)
                 {
-                    p.MoveToken(tokenChoice, moves, GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb));
+                    Console.WriteLine($"Able to move out: {GameRules.AbleToMoveOut(die, moves)}");
+                    if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb))
+                    {
+                        p.MoveToken(tokenChoice, moves, true);
+                        t.Home = false;
+                        t.Safe = false;
+                    }
                 }
                 else
                 {
@@ -71,7 +99,7 @@ namespace LudoApplication.GameApplication
 
                 GameUI.PrintUI(gb, players);
                 turn++;
-                
+
             }
         }
 

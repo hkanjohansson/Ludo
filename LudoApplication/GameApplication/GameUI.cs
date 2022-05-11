@@ -11,14 +11,13 @@ namespace LudoApplication.GameApplication
         /*
          * TODO - Refactor code that is duplicated.
          *      - Create an area for the players tokens.
-         *      - Show the die rolls for a player. 
-         *      - Make the application more user friendly by giving proper instructions.
          */
         public static void PrintUI(Gameboard gb, IList<Player> players)
         {
             StringBuilder sb = new();
-            sb.Append("                ");
+            TokenArea(players[0], 1, sb);
             CreateRow(gb, sb, 11, 13);
+            TokenArea(players[1], 2, sb);
             sb.Append("                \n");
             CreateRowWithHomefield(gb, players[1], sb, 10, 14, 0);
             CreateRowWithHomefield(gb, players[1], sb, 9, 15, 1);
@@ -54,8 +53,11 @@ namespace LudoApplication.GameApplication
             CreateRowWithHomefield(gb, players[3], sb, 42, 34, 2);
             CreateRowWithHomefield(gb, players[3], sb, 41, 35, 1);
             CreateRowWithHomefield(gb, players[3], sb, 40, 36, 0);
-            sb.Append("                ");
+            TokenArea(players[2], 3, sb);
+            //sb.Append("                ");
             CreateRow(gb, sb, 39, 37);
+            TokenArea(players[3], 4, sb);
+
             Console.WriteLine(sb.ToString());
         }
 
@@ -68,7 +70,7 @@ namespace LudoApplication.GameApplication
             }
             else
             {
-                sb.Append($"{char.ToUpper(gb.Board[leftIndex])}");
+                sb.Append($" {char.ToUpper(gb.Board[leftIndex])} ");
             }
 
             CreateHomeField(p, sb, homeIndex);
@@ -102,10 +104,8 @@ namespace LudoApplication.GameApplication
         {
             if (startIndex > endIndex)
             {
-                Console.WriteLine("Hej hej hej");
                 for (int i = startIndex; i >= endIndex; i--)
                 {
-                    Console.WriteLine(i);
                     if (gb.Board[i] == '\0')
                     {
                         sb.Append(" O ");
@@ -114,7 +114,6 @@ namespace LudoApplication.GameApplication
                     {
                         sb.Append($" {char.ToUpper(gb.Board[i])} ");
                     }
-
                 }
             }
             else
@@ -132,13 +131,23 @@ namespace LudoApplication.GameApplication
 
                 }
             }
-
-
-
         }
 
+        public static string TokenArea(Player p, int playerIndex, StringBuilder sb)
+        {
+            sb.Append($"Player{playerIndex}:");
+            foreach (Token t in p.Tokens)
+            {
+                if (t.Home)
+                {
+                    sb.Append($"{char.ToUpper(t.Colour[0])} ");
+                } else
+                {
+                    sb.Append("O ");
+                }
+            }
 
+            return sb.ToString();   
+        }
     }
-
-
 }
