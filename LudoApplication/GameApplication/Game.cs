@@ -3,6 +3,7 @@ using LudoApplication.GameItems;
 using LudoApplication.Players;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LudoApplication.GameApplication
 {
@@ -30,42 +31,18 @@ namespace LudoApplication.GameApplication
 
         public void InitialRoll()
         {
-            /*
-             * Press enter to roll the die
-             */
-            int[] initRoll = new int[4];
+            List<int> initRoll = new();
             for (int i = 0; i < NUMBER_OF_PLAYERS; i++)
             {
                 Console.WriteLine($"Player {i + 1}, press enter to roll the die: ");
                 Console.ReadLine();
                 int dieRoll = die.Roll();
                 Console.WriteLine($"You rolled a: {dieRoll}\n");
-                
-                for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
-                {
-                    if (i != j)
-                    {
-                        while (dieRoll == initRoll[j])
-                        {
-                            Console.WriteLine("Press enter to roll the die");
-                            Console.ReadLine();
-                            dieRoll = die.Roll();
-                            Console.WriteLine($"You rolled a: {dieRoll}\n");
-                        }
-                    }
-                    
-                }
-                
-                
-                if (dieRoll > initRoll[i])
-                {
-                    initRoll[i] = dieRoll;
-                    turn = i;
-                }
 
-                
+                initRoll.Add(dieRoll);
             }
 
+            turn = initRoll.IndexOf(initRoll.Max());              
             Console.WriteLine($"Player {turn + 1} to start.");
         }
 
