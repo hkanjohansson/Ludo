@@ -22,8 +22,8 @@ namespace LudoApplication.GameApplication
             {
                 new Player(gb, "green", 0),
                 new Player(gb, "red", 13),
-                new Player(gb, "blue", 26),
-                new Player(gb, "yellow", 39)
+                new Player(gb, "blue", 39),
+                new Player(gb, "yellow", 26)
             };
             die = new Die(6);
             turn = 0;
@@ -38,11 +38,10 @@ namespace LudoApplication.GameApplication
                 Console.ReadLine();
                 int dieRoll = die.Roll();
                 Console.WriteLine($"You rolled a: {dieRoll}\n");
-
                 initRoll.Add(dieRoll);
             }
 
-            turn = initRoll.IndexOf(initRoll.Max());              
+            turn = initRoll.IndexOf(initRoll.Max());
             Console.WriteLine($"Player {turn + 1} to start.");
         }
 
@@ -58,10 +57,9 @@ namespace LudoApplication.GameApplication
 
                 TokenToMove(out int tokenChoice, out Player p, out Token t);
 
-
                 if (t.Home)
                 {
-                    Console.WriteLine($"Able to move out: {GameRules.AbleToMoveOut(die, moves)}");
+                    //Console.WriteLine($"Able to move out: {GameRules.AbleToMoveOut(die, moves)}");
                     if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb))
                     {
                         p.MoveToken(tokenChoice, moves, true);
@@ -69,14 +67,31 @@ namespace LudoApplication.GameApplication
                         t.Safe = false;
                     }
                 }
+                else if (GameRules.EnterFinishArea(p, t, moves))
+                {
+                    Console.WriteLine($"Entered the finishing area with token #{t.Id}");
+                }
+                else if (t.Safe)
+                {
+                    int finishingMove = t.FinishPosition + moves;
+                    
+                    if (GameRules.FinishedToken(t, finishingMove))
+                    {
+                        t.Finished = true;
+                        /*
+                        * TODO - Put finished tokens in a list for respective player ---> if pTList.Count == 4, win.
+                        */
+                    } else
+                    {
+                        p.MoveFinishingToken(t, moves, finishingMove < 5 && !t.Finished);
+                    }
+                }
                 else
                 {
-                    p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb));
+                    p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb) && !t.Finished);
                 }
-
                 GameUI.PrintUI(gb, players);
                 turn++;
-
             }
         }
 

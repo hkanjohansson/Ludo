@@ -1,4 +1,5 @@
-﻿using LudoApplication.GameItems;
+﻿using LudoApplication.GameApplication;
+using LudoApplication.GameItems;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +11,7 @@ namespace LudoApplication.Players
         const int LENGTH_OF_HOME = 6;
         private readonly Gameboard gameboard;
         private string colourOfTokens;
-        private IList<Token> tokens;
+        private List<Token> tokens;
         private readonly int startSquare;
         private readonly int homeField;
 
@@ -31,7 +32,7 @@ namespace LudoApplication.Players
         public int HomeField => homeField;
         public Gameboard Gameboard { get; }
         public string ColourOfTokens { get => colourOfTokens; set => colourOfTokens = value; }
-        public IList<Token> Tokens { get => tokens; set => tokens = value; }
+        public List<Token> Tokens { get => tokens; set => tokens = value; }
         public int StartSquare => startSquare;
 
         
@@ -47,8 +48,20 @@ namespace LudoApplication.Players
             
             if (moveable)
             {
+                gameboard.Board[t.Position] = '\0';
                 t.Position += moves;
                 gameboard.Board[t.Position] = colourOfTokens[0];
+            }
+        }
+
+        public void MoveFinishingToken(Token t, int moves, bool moveable)
+        {
+            if (moveable)
+            {
+                gameboard.FinishArea[t.FinishPosition] = 'X';
+                t.FinishPosition += moves;
+
+                gameboard.FinishArea[t.FinishPosition - 1] = t.Colour[0];
             }
         }
     }

@@ -7,6 +7,8 @@
         private bool home;
         private int position;
         private bool safe;
+        private int finishPosition;
+        private bool finished;
         public Token(int id, string colour, int position)
         {
             this.id = id;
@@ -14,12 +16,16 @@
             home = true;
             this.position = position;
             safe = false;
+            finishPosition = 0;
+            finished = false;
         }
 
         public int Id { get => id; set => id = value; }
         public string Colour { get => colour; set => colour = value; }
         public bool Home { get => home; set => home = value; }
-        public int Position { get => position; set => position = value; }
+        public int Position { get => position % 52; set => position = value; }
         public bool Safe { get => safe; set => safe = value; }
+        public int FinishPosition { get => finishPosition; set => finishPosition = value; }
+        public bool Finished { get => finished; set => finished = value; }
     }
 }
