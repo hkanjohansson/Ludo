@@ -89,7 +89,7 @@ namespace LudoApplication.GameApplication
 
         private static void CreateHomeField(Player p, StringBuilder sb, int homeIndex, Gameboard gb)
         {
-            if (gb.FinishArea[homeIndex] == 'X')
+            if (p.FinishArea[homeIndex] == 'X')
             {
                 sb.Append(" X ");
             }

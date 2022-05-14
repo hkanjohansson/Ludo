@@ -8,34 +8,40 @@ namespace LudoApplication.Players
     public class Player
     {
         const int NUMBER_OF_TOKENS = 4;
-        const int LENGTH_OF_HOME = 6;
         private readonly Gameboard gameboard;
         private string colourOfTokens;
         private List<Token> tokens;
         private readonly int startSquare;
-        private readonly int homeField;
+        private char[] finishArea;
 
         public Player(Gameboard gb, string colourOfTokens, int startSquare)
         {
             gameboard = gb;
             this.colourOfTokens = colourOfTokens;
             Tokens = new List<Token>();
-            homeField = LENGTH_OF_HOME;
+            
             this.startSquare = startSquare;
             
             for (int i = 0; i < NUMBER_OF_TOKENS; i++)
             {
                 Tokens.Add(new Token(i, colourOfTokens, startSquare));
             }
+
+            finishArea = new char[5];
+
+            for (int i = 0; i < finishArea.Length; i++)
+            {
+                finishArea[i] = 'X';
+            }
         }
 
-        public int HomeField => homeField;
-        public Gameboard Gameboard { get; }
+        
+        public Gameboard Gameboard { get => gameboard; }
         public string ColourOfTokens { get => colourOfTokens; set => colourOfTokens = value; }
         public List<Token> Tokens { get => tokens; set => tokens = value; }
         public int StartSquare => startSquare;
+        public char[] FinishArea { get => finishArea; set => finishArea = value; }
 
-        
 
         public void MoveToken(int tokenId, int moves, bool moveable)
         {
@@ -50,6 +56,7 @@ namespace LudoApplication.Players
             {
                 gameboard.Board[t.Position] = '\0';
                 t.Position += moves;
+                t.RelativePosition += moves;
                 gameboard.Board[t.Position] = colourOfTokens[0];
             }
         }
@@ -58,10 +65,10 @@ namespace LudoApplication.Players
         {
             if (moveable)
             {
-                gameboard.FinishArea[t.FinishPosition] = 'X';
+                Gameboard.Board[t.Position] = '\0';
+                FinishArea[t.FinishPosition] = 'X';
                 t.FinishPosition += moves;
-
-                gameboard.FinishArea[t.FinishPosition - 1] = t.Colour[0];
+                FinishArea[t.FinishPosition] = t.Colour[0];
             }
         }
     }

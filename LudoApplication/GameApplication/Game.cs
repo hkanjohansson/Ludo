@@ -59,7 +59,6 @@ namespace LudoApplication.GameApplication
 
                 if (t.Home)
                 {
-                    //Console.WriteLine($"Able to move out: {GameRules.AbleToMoveOut(die, moves)}");
                     if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb))
                     {
                         p.MoveToken(tokenChoice, moves, true);
@@ -67,21 +66,26 @@ namespace LudoApplication.GameApplication
                         t.Safe = false;
                     }
                 }
-                else if (GameRules.EnterFinishArea(p, t, moves))
+                else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves >= gb.Board.Length - 1 && !t.Safe)
                 {
+                    /*
+                     * TODO - This statement only cares about when entering the finishing area. 
+                     */
+                    GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - (gb.Board.Length - 1));
                     Console.WriteLine($"Entered the finishing area with token #{t.Id}");
                 }
                 else if (t.Safe)
                 {
                     int finishingMove = t.FinishPosition + moves;
-                    
+
                     if (GameRules.FinishedToken(t, finishingMove))
                     {
                         t.Finished = true;
                         /*
                         * TODO - Put finished tokens in a list for respective player ---> if pTList.Count == 4, win.
                         */
-                    } else
+                    }
+                    else
                     {
                         p.MoveFinishingToken(t, moves, finishingMove < 5 && !t.Finished);
                     }
