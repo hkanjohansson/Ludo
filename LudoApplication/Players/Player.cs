@@ -11,6 +11,7 @@ namespace LudoApplication.Players
         private readonly Gameboard gameboard;
         private string colourOfTokens;
         private List<Token> tokens;
+        private List<Token> finishedTokens;
         private readonly int startSquare;
         private char[] finishArea;
 
@@ -18,17 +19,16 @@ namespace LudoApplication.Players
         {
             gameboard = gb;
             this.colourOfTokens = colourOfTokens;
-            Tokens = new List<Token>();
+            tokens = new List<Token>();
+            finishedTokens = new List<Token>();
             
             this.startSquare = startSquare;
-            
             for (int i = 0; i < NUMBER_OF_TOKENS; i++)
             {
-                Tokens.Add(new Token(i, colourOfTokens, startSquare));
+                tokens.Add(new Token(i, colourOfTokens, startSquare));
             }
 
             finishArea = new char[5];
-
             for (int i = 0; i < finishArea.Length; i++)
             {
                 finishArea[i] = 'X';
@@ -41,7 +41,7 @@ namespace LudoApplication.Players
         public List<Token> Tokens { get => tokens; set => tokens = value; }
         public int StartSquare => startSquare;
         public char[] FinishArea { get => finishArea; set => finishArea = value; }
-
+        public List<Token> FinishedTokens { get => finishedTokens; set => finishedTokens = value; }
 
         public void MoveToken(int tokenId, int moves, bool moveable)
         {

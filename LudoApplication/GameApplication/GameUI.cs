@@ -57,6 +57,13 @@ namespace LudoApplication.GameApplication
             CreateRow(gb, sb, 39, 37);
             TokenArea(players[3], 4, sb);
 
+            sb.AppendLine();
+            sb.AppendLine("Finished Tokens:");
+            ShowFinishedTokens(players[0], 1, sb);
+            ShowFinishedTokens(players[1], 2, sb);
+            ShowFinishedTokens(players[2], 3, sb);
+            ShowFinishedTokens(players[3], 4, sb);
+
             Console.WriteLine(sb.ToString());
         }
 
@@ -132,12 +139,12 @@ namespace LudoApplication.GameApplication
             }
         }
 
-        public static string TokenArea(Player p, int playerIndex, StringBuilder sb)
+        public static void TokenArea(Player p, int playerIndex, StringBuilder sb)
         {
             sb.Append($"Player{playerIndex}:");
             foreach (Token t in p.Tokens)
             {
-                if (t.Home)
+                if (t != null && t.Home)
                 {
                     sb.Append($"{char.ToUpper(t.Colour[0])} ");
                 } else
@@ -146,7 +153,18 @@ namespace LudoApplication.GameApplication
                 }
             }
 
-            return sb.ToString();   
+            
+        }
+
+        public static void ShowFinishedTokens(Player p, int playerId, StringBuilder sb)
+        {
+            sb.Append($"Player {playerId}: [ ");
+            foreach (Token t in p.FinishedTokens)
+            {
+                sb.Append($"{char.ToUpper(t.Colour[0])}{t.Id} ");
+            }
+
+            sb.Append(" ]\n");
         }
     }
 }

@@ -14,6 +14,9 @@ namespace LudoApplication.GameApplication
         private readonly IList<Player> players;
         private readonly Die die;
         private int turn;
+        private bool gameRunning;
+
+        public bool GameRunning { get => gameRunning; set => gameRunning = value; }
 
         public Game()
         {
@@ -27,6 +30,7 @@ namespace LudoApplication.GameApplication
             };
             die = new Die(6);
             turn = 0;
+            gameRunning = true;
         }
 
         public void InitialRoll()
@@ -47,7 +51,7 @@ namespace LudoApplication.GameApplication
 
         public void MainGame()
         {
-            while (true)
+            while (gameRunning)
             {
                 Console.WriteLine($"\nPlayer {PlayerTurn(turn) + 1} turn to roll");
                 Console.WriteLine("Press enter to roll the die: ");
@@ -57,9 +61,9 @@ namespace LudoApplication.GameApplication
 
                 TokenToMove(out int tokenChoice, out Player p, out Token t);
 
-                if (t.Home)
+                if (t != null && t.Home)
                 {
-                    if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb))
+                    if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb) && !t.Finished)
                     {
                         p.MoveToken(tokenChoice, moves, true);
                         t.Home = false;
@@ -74,23 +78,32 @@ namespace LudoApplication.GameApplication
                     GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - (gb.Board.Length - 1));
                     Console.WriteLine($"Entered the finishing area with token #{t.Id}");
                 }
-                else if (t.Safe)
+                else if (t != null && t.Safe)
                 {
+                    
                     int finishingMove = t.FinishPosition + moves;
 
                     if (GameRules.FinishedToken(t, finishingMove))
                     {
                         t.Finished = true;
+                        p.FinishedTokens.Add(t);
+                        p.Tokens[t.Id] = null;
+                        p.FinishArea[t.FinishPosition] = 'X';
                         /*
                         * TODO - Put finished tokens in a list for respective player ---> if pTList.Count == 4, win.
                         */
+                        if (p.FinishedTokens.Count() == 4)
+                        {
+                            gameRunning = false;
+                            Console.WriteLine($"Player {PlayerTurn(turn) + 1} is the winner.");
+                        }
                     }
                     else
                     {
                         p.MoveFinishingToken(t, moves, finishingMove < 5 && !t.Finished);
                     }
                 }
-                else
+                else if (t != null)
                 {
                     p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb) && !t.Finished);
                 }

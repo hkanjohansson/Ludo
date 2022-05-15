@@ -17,7 +17,11 @@ namespace LudoApplication.GameApplication
              * 
              * TODO - Should it be checked if the tokens belongs to the current player?
              */
-
+            if (t == null)
+            {
+                return false;
+            }
+            
             for (int i = t.Position + 1; i < t.Position + moves - 1; i++)
             {
                 if (gb.Board[i % gb.Board.Length] != '\0')
@@ -32,18 +36,20 @@ namespace LudoApplication.GameApplication
         public static void EnterFinishArea(Player p, Token t, int moves)
         {
             t.Safe = true;
-            p.MoveFinishingToken(t, moves, true);
+            p.MoveFinishingToken(t, moves, t.FinishPosition + moves < 5);
         }
 
-        public static bool FinishedToken(Token t, int dieRoll)
+        public static bool FinishedToken(Token t, int finishingMove)
         {
             /*
              * Safe indicates that the token has entered the finishing area,
-             * and Token.FinishPosition == 6 indicates 'F' on the UI and hence
+             * and Token.FinishPosition == 5 indicates 'F' on the UI and hence
              * the position right outside the finishing area and thereof the 
              * token is finished.
              */
-            return t.Safe && t.FinishPosition + dieRoll == 5;
+
+            return t.Safe && finishingMove == 5;
+            //return t.Safe && t.FinishPosition + dieRoll == 5;
         }
     }
 }
