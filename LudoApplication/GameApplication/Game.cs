@@ -1,5 +1,4 @@
-﻿
-using LudoApplication.GameItems;
+﻿using LudoApplication.GameItems;
 using LudoApplication.Players;
 using System;
 using System.Collections.Generic;
@@ -11,12 +10,16 @@ namespace LudoApplication.GameApplication
     {
         const int NUMBER_OF_PLAYERS = 4;
         private Gameboard gb;
-        private readonly IList<Player> players;
+        private readonly List<Player> players;
         private readonly Die die;
         private int turn;
         private bool gameRunning;
 
         public bool GameRunning { get => gameRunning; set => gameRunning = value; }
+
+        public List<Player> Players => players;
+
+        public Gameboard Gb { get => gb; set => gb = value; }
 
         public Game()
         {
@@ -61,10 +64,11 @@ namespace LudoApplication.GameApplication
 
                 TokenToMove(out int tokenChoice, out Player p, out Token t);
 
-                if (t != null && t.Home)
+                if (!t.Finished && t.Home)
                 {
                     if (GameRules.AbleToMoveOut(die, moves) && GameRules.Moveable(t, moves, gb) && !t.Finished)
                     {
+                        GameRules.LandOnOpponent(t, gb, players, moves);
                         p.MoveToken(tokenChoice, moves, true);
                         t.Home = false;
                         t.Safe = false;
@@ -73,12 +77,12 @@ namespace LudoApplication.GameApplication
                 else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves >= gb.Board.Length - 1 && !t.Safe)
                 {
                     /*
-                     * TODO - This statement only cares about when entering the finishing area. 
+                     * This statement only cares about when entering the finishing area. 
                      */
                     GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - (gb.Board.Length - 1));
                     Console.WriteLine($"Entered the finishing area with token #{t.Id}");
                 }
-                else if (t != null && t.Safe)
+                else if (!t.Finished && t.Safe)
                 {
                     /*
                      * TODO - Refactor into a separate method so it can be tested.
@@ -93,7 +97,7 @@ namespace LudoApplication.GameApplication
                         p.FinishArea[t.FinishPosition] = 'X';
                         Console.WriteLine($"Token #{t.Colour[0]}{t.Id} finished.");
                         
-                        if (p.FinishedTokens.Count() == 4)
+                        if (p.FinishedTokens.Count == 4)
                         {
                             gameRunning = false;
                             Console.WriteLine($"Player {PlayerTurn(turn) + 1} is the winner.");
@@ -104,9 +108,11 @@ namespace LudoApplication.GameApplication
                         p.MoveFinishingToken(t, moves, finishingMove < 5 && !t.Finished);
                     }
                 }
-                else if (t != null)
+                else if (!t.Finished)
                 {
-                    p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb) && !t.Finished);
+                    GameRules.LandOnOpponent(t, gb, players, moves);
+                    p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb));
+                    
                 }
                 GameUI.PrintUI(gb, players);
                 turn++;

@@ -144,7 +144,7 @@ namespace LudoApplication.GameApplication
             sb.Append($"Player{playerIndex}:");
             foreach (Token t in p.Tokens)
             {
-                if (t != null && t.Home)
+                if (t.Home)
                 {
                     sb.Append($"{char.ToUpper(t.Colour[0])} ");
                 } else

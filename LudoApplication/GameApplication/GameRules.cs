@@ -1,5 +1,8 @@
 ﻿using LudoApplication.GameItems;
 using LudoApplication.Players;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LudoApplication.GameApplication
 {
@@ -21,7 +24,7 @@ namespace LudoApplication.GameApplication
             {
                 return false;
             }
-            
+
             for (int i = t.Position + 1; i < t.Position + moves - 1; i++)
             {
                 if (gb.Board[i % gb.Board.Length] != '\0')
@@ -30,13 +33,35 @@ namespace LudoApplication.GameApplication
                 }
             }
 
+
             return true;
         }
 
+        public static void LandOnOpponent(Token t, Gameboard gb, List<Player> players, int moves)
+        {
+            char oppColour = gb.Board[(t.Position + moves) % gb.Board.Length];
+            if (oppColour == t.Colour[0] || gb.Board[(t.Position + moves) % gb.Board.Length] == '\0')
+            {
+                Console.WriteLine("Landed on an empty spot or a spot where your own token were placed.");
+                return;
+            }
+            
+            Player opponent = players.Where(p => p.ColourOfTokens[0] == oppColour).FirstOrDefault();
+            Token oppToken = opponent.Tokens.Where(t2 => t2.Position == t.Position + moves).FirstOrDefault();
+
+            Console.WriteLine($"Opponents token colour: {oppToken.Colour}");
+            oppToken.Home = true;
+            oppToken.Safe = true;
+            oppToken.Position = opponent.StartSquare;
+            oppToken.RelativePosition = 0;
+            gb.Board[t.Position + moves] = char.ToUpper(t.Colour[0]);
+            Console.WriteLine($"Sent token {oppToken.Colour[0]}{oppToken.Id} back home.");
+            
+        }
         public static void EnterFinishArea(Player p, Token t, int moves)
         {
             t.Safe = true;
-            p.MoveFinishingToken(t, moves - 1, t.FinishPosition + moves <= 5);
+            p.MoveFinishingToken(t, moves, t.FinishPosition + moves <= 5);
         }
 
         public static bool FinishedToken(Token t, int finishingMove)
