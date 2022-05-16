@@ -23,10 +23,10 @@ namespace LudoApplication.GameApplication
             gb = new Gameboard();
             players = new List<Player>
             {
-                new Player(gb, "green", 0),
-                new Player(gb, "red", 13),
-                new Player(gb, "blue", 39),
-                new Player(gb, "yellow", 26)
+                new Player(gb, "Green", 0),
+                new Player(gb, "Red", 13),
+                new Player(gb, "Blue", 39),
+                new Player(gb, "Yellow", 26)
             };
             die = new Die(6);
             turn = 0;
@@ -80,7 +80,9 @@ namespace LudoApplication.GameApplication
                 }
                 else if (t != null && t.Safe)
                 {
-                    
+                    /*
+                     * TODO - Refactor into a separate method so it can be tested.
+                     */
                     int finishingMove = t.FinishPosition + moves;
 
                     if (GameRules.FinishedToken(t, finishingMove))
@@ -89,9 +91,8 @@ namespace LudoApplication.GameApplication
                         p.FinishedTokens.Add(t);
                         p.Tokens[t.Id] = null;
                         p.FinishArea[t.FinishPosition] = 'X';
-                        /*
-                        * TODO - Put finished tokens in a list for respective player ---> if pTList.Count == 4, win.
-                        */
+                        Console.WriteLine($"Token #{t.Colour[0]}{t.Id} finished.");
+                        
                         if (p.FinishedTokens.Count() == 4)
                         {
                             gameRunning = false;

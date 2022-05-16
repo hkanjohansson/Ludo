@@ -19,28 +19,28 @@ namespace LudoApplication.GameApplication
             CreateRow(gb, sb, 11, 13);
             TokenArea(players[1], 2, sb);
             sb.Append("                \n");
-            CreateRowWithHomefield(gb, players[1], sb, 10, 14, 0);
-            CreateRowWithHomefield(gb, players[1], sb, 9, 15, 1);
-            CreateRowWithHomefield(gb, players[1], sb, 8, 16, 2);
-            CreateRowWithHomefield(gb, players[1], sb, 7, 17, 3);
-            CreateRowWithHomefield(gb, players[1], sb, 6, 18, 4);
+            CreateRowWithFinishField(gb, players[1], sb, 10, 14, 0);
+            CreateRowWithFinishField(gb, players[1], sb, 9, 15, 1);
+            CreateRowWithFinishField(gb, players[1], sb, 8, 16, 2);
+            CreateRowWithFinishField(gb, players[1], sb, 7, 17, 3);
+            CreateRowWithFinishField(gb, players[1], sb, 6, 18, 4);
             CreateRow(gb, sb, 0, 5);
             sb.Append("  F  ");
             CreateRow(gb, sb, 20, 25);
             sb.Append('\n');
             CreateRow(gb, sb, 51, 51);
-            CreateHomeField(players[0], sb, 0, gb);
-            CreateHomeField(players[0], sb, 1, gb);
-            CreateHomeField(players[0], sb, 2, gb);
-            CreateHomeField(players[0], sb, 3, gb);
-            CreateHomeField(players[0], sb, 4, gb);
+            CreateFinishField(players[0], sb, 0, gb);
+            CreateFinishField(players[0], sb, 1, gb);
+            CreateFinishField(players[0], sb, 2, gb);
+            CreateFinishField(players[0], sb, 3, gb);
+            CreateFinishField(players[0], sb, 4, gb);
             sb.Append(" F ");
             sb.Append("F ");
-            CreateHomeField(players[3], sb, 0, gb);
-            CreateHomeField(players[3], sb, 1, gb);
-            CreateHomeField(players[3], sb, 2, gb);
-            CreateHomeField(players[3], sb, 3, gb);
-            CreateHomeField(players[3], sb, 4, gb);
+            CreateFinishField(players[3], sb, 0, gb);
+            CreateFinishField(players[3], sb, 1, gb);
+            CreateFinishField(players[3], sb, 2, gb);
+            CreateFinishField(players[3], sb, 3, gb);
+            CreateFinishField(players[3], sb, 4, gb);
             CreateRow(gb, sb, 26, 26);
             sb.Append('\n');
             CreateRow(gb, sb, 50, 45);
@@ -48,11 +48,11 @@ namespace LudoApplication.GameApplication
             
             CreateRow(gb, sb, 31, 26);
             sb.Append('\n');
-            CreateRowWithHomefield(gb, players[2], sb, 44, 32, 4);
-            CreateRowWithHomefield(gb, players[2], sb, 43, 33, 3);
-            CreateRowWithHomefield(gb, players[2], sb, 42, 34, 2);
-            CreateRowWithHomefield(gb, players[2], sb, 41, 35, 1);
-            CreateRowWithHomefield(gb, players[2], sb, 40, 36, 0);
+            CreateRowWithFinishField(gb, players[2], sb, 44, 32, 4);
+            CreateRowWithFinishField(gb, players[2], sb, 43, 33, 3);
+            CreateRowWithFinishField(gb, players[2], sb, 42, 34, 2);
+            CreateRowWithFinishField(gb, players[2], sb, 41, 35, 1);
+            CreateRowWithFinishField(gb, players[2], sb, 40, 36, 0);
             TokenArea(players[2], 3, sb);
             CreateRow(gb, sb, 39, 37);
             TokenArea(players[3], 4, sb);
@@ -67,7 +67,7 @@ namespace LudoApplication.GameApplication
             Console.WriteLine(sb.ToString());
         }
 
-        private static void CreateRowWithHomefield(Gameboard gb, Player p, StringBuilder sb, int leftIndex, int rightIndex, int homeIndex)
+        private static void CreateRowWithFinishField(Gameboard gb, Player p, StringBuilder sb, int leftIndex, int rightIndex, int homeIndex)
         {
             sb.Append("                ");
             if (gb.Board[leftIndex] == '\0')
@@ -79,7 +79,7 @@ namespace LudoApplication.GameApplication
                 sb.Append($" {char.ToUpper(gb.Board[leftIndex])} ");
             }
 
-            CreateHomeField(p, sb, homeIndex, gb);
+            CreateFinishField(p, sb, homeIndex, gb);
 
             if (gb.Board[rightIndex] == '\0')
             {
@@ -94,7 +94,7 @@ namespace LudoApplication.GameApplication
             sb.Append('\n');
         }
 
-        private static void CreateHomeField(Player p, StringBuilder sb, int homeIndex, Gameboard gb)
+        private static void CreateFinishField(Player p, StringBuilder sb, int homeIndex, Gameboard gb)
         {
             if (p.FinishArea[homeIndex] == 'X')
             {

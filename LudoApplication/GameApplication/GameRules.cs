@@ -36,7 +36,7 @@ namespace LudoApplication.GameApplication
         public static void EnterFinishArea(Player p, Token t, int moves)
         {
             t.Safe = true;
-            p.MoveFinishingToken(t, moves, t.FinishPosition + moves < 5);
+            p.MoveFinishingToken(t, moves - 1, t.FinishPosition + moves <= 5);
         }
 
         public static bool FinishedToken(Token t, int finishingMove)
@@ -49,7 +49,6 @@ namespace LudoApplication.GameApplication
              */
 
             return t.Safe && finishingMove == 5;
-            //return t.Safe && t.FinishPosition + dieRoll == 5;
         }
     }
 }
