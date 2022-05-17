@@ -1,11 +1,10 @@
 ﻿using LudoApplication.GameApplication;
-using LudoApplication.Players;
 
 namespace LudoApplication
 {
-    internal class Program
+    public class LudoApplicationMain
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Game g = new();
             g.InitialRoll();

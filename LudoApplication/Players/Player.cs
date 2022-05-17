@@ -11,7 +11,7 @@ namespace LudoApplication.Players
         private readonly Gameboard gameboard;
         private string colourOfTokens;
         private List<Token> tokens;
-        private List<Token> finishedTokens;
+        private List<Token> finishedTokens; // Tokens that are finished and therefore they are out of the game
         private readonly int startSquare;
         private char[] finishArea;
 

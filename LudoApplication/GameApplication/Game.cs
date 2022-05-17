@@ -60,9 +60,9 @@ namespace LudoApplication.GameApplication
                 Console.WriteLine($"\nPlayer {PlayerTurn(turn) + 1} turn to roll");
                 Console.WriteLine("Press enter to roll the die: ");
                 Console.ReadLine();
+
                 int moves = die.Roll();
                 Console.WriteLine($"You rolled: {moves}\n");
-
                 TokenToMove(out int tokenChoice, out Player p, out Token t);
 
                 if (!t.Finished && t.Home)
@@ -80,21 +80,19 @@ namespace LudoApplication.GameApplication
                     /*
                      * This statement only cares about when entering the finishing area. 
                      */
-                    
                     GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - gb.Board.Length);
                     Console.WriteLine($"Entered the finishing area with token #{t.Id}");
                 }
                 else if (!t.Finished && t.Safe)
                 {
                     /*
-                     * TODO - Refactor into a separate method so it can be tested.
-                     * 
-                     *      - Remove commented code
+                     * Cases when a token is in the finishing area.
                      */
                     int finishingMove = t.FinishPosition + moves;
 
                     if (GameRules.FinishedToken(t, finishingMove))
                     {
+                        // Finished
                         t.Finished = true;
                         p.FinishedTokens.Add(t);
                         p.FinishArea[t.FinishPosition] = 'X';
@@ -102,6 +100,7 @@ namespace LudoApplication.GameApplication
                         
                         if (p.FinishedTokens.Count == 4)
                         {
+                            // If any player has has got all their tokens finished the game ends immediatly
                             gameRunning = false;
                             Console.WriteLine($"Player {PlayerTurn(turn) + 1} is the winner.");
                             Console.ReadLine();
@@ -109,11 +108,15 @@ namespace LudoApplication.GameApplication
                     }
                     else
                     {
+                        // Move inside the finishing area
                         p.MoveFinishingToken(t, moves, finishingMove < 5 && !t.Finished);
                     }
                 }
                 else if (!t.Finished)
                 {
+                    /*
+                     * When a token is out on the gameboard.
+                     */
                     GameRules.LandOnOpponent(t, gb, players, moves);
                     p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb));
                     
@@ -133,7 +136,7 @@ namespace LudoApplication.GameApplication
             t = p.Tokens[tokenChoice];
         }
 
-        public int ParseChoice(ref string choice)
+        public static int ParseChoice(ref string choice)
         {
             int tokenChoice;
             while (!int.TryParse(choice, out tokenChoice))
@@ -145,7 +148,7 @@ namespace LudoApplication.GameApplication
             return tokenChoice;
         }
 
-        public void TokenChoiceValidation(ref int tokenChoice)
+        public static void TokenChoiceValidation(ref int tokenChoice)
         {
             while (tokenChoice < 0 || tokenChoice > 3 || !int.TryParse($"{tokenChoice}", out tokenChoice))
             {

@@ -6,7 +6,7 @@
         private string colour;
         private bool home;
         private int position;
-        private int relativePosition;
+        private int relativePosition; // To make it easier to keep track of when it is time to enter the finish area.
         private bool safe;
         private int finishPosition;
         private bool finished;
