@@ -15,24 +15,24 @@ namespace LudoApplication.GameApplication
 
         public static void MainMenu()
         {
-            /* TODO -
-             * Welcome!
-             * 
-             * This is a game of four players. Each player get four tokens. 
-             * 
-             * To be able to move out a token from 
-             * the home area, you have to roll a six. 
-             * 
-             * You cannot move past an opponents token in the field, but you can land on the same spot. If you land on
-             * the same spot as an opponent, you send that token back home.
-             * 
-             * When a token is about to finish. The last roll must result in an exact match of how many moves that is 
-             * left to finish. 
-             * 
-             * That all for the rules of the game. 
-             * 
-             * Press enter to start playing the game!
-             */
+            Console.WriteLine("\nWelcome to a game of Ludo!\n" +
+                "This is a game of four players. Each player\ngets four tokens. " +
+                "To be able to move out a token from the home\n" +
+                "area, you have to roll a six.\n\n" +
+
+                "The game starts by all four players roll the die and\n" +
+                "the one with the highest roll get the initial move\n" +
+                "and then the order is chronological.\n\n" +
+                "You cannot move past an opponents token in the field,\n" +
+                "but you can land on the same spot.If you land on\n" +
+                "the same spot as an opponent, you send that token back " +
+                "home.\n\n" +
+                "When a token is about to finish. The last roll must result\n" +
+                "in an exact match of how many moves that is left to finish.\n\n" +
+                "That all for the rules of the game.\n\n" +
+                "Press enter to start playing the game!\n");
+            
+            Console.ReadLine();
         }
         public static void PrintUI(Gameboard gb, IList<Player> players)
         {
@@ -63,11 +63,11 @@ namespace LudoApplication.GameApplication
             CreateFinishField(players[3], sb, 2, gb);
             CreateFinishField(players[3], sb, 1, gb);
             CreateFinishField(players[3], sb, 0, gb);
-            CreateRow(gb, sb, 26, 26);
+            CreateRow(gb, sb, 25, 25);
             sb.Append('\n');
             CreateRow(gb, sb, 50, 45);
             sb.Append("  F  ");
-            
+
             CreateRow(gb, sb, 31, 26);
             sb.Append('\n');
             CreateRowWithFinishField(gb, players[2], sb, 44, 32, 4);
@@ -169,13 +169,14 @@ namespace LudoApplication.GameApplication
                 if (t.Home)
                 {
                     sb.Append($"{char.ToUpper(t.Colour[0])} ");
-                } else
+                }
+                else
                 {
                     sb.Append("O ");
                 }
             }
 
-            
+
         }
 
         public static void ShowFinishedTokens(Player p, int playerId, StringBuilder sb)

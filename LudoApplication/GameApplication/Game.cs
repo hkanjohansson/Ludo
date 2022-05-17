@@ -34,6 +34,7 @@ namespace LudoApplication.GameApplication
             die = new Die(6);
             turn = 0;
             gameRunning = true;
+            GameUI.MainMenu();
         }
 
         public void InitialRoll()
