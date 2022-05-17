@@ -1,5 +1,9 @@
 # Ludo
 More or less, I tried to implement the game as I remembered it as playing Fia as a kid. Rules and features described in https://en.wikipedia.org/wiki/Ludo_(board_game) that I could not remember that I used to play with were left out.
+
+Here is an example of the gameboard  
+
+![](https://github.com/hkanjohansson/Ludo/blob/main/LudoApplication/GameboardExample.png)
 ## Architecture
 The game is mainly build by three different building blocks (Directories): GameApplication, Players, and GameItems. 
 
