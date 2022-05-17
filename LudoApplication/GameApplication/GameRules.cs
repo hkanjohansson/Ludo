@@ -17,8 +17,6 @@ namespace LudoApplication.GameApplication
         {
             /*
              * The token is allowed to land on the last square i.e. do not check the last one.
-             * 
-             * TODO - Should it be checked if the tokens belongs to the current player?
              */
             if (t == null)
             {
@@ -61,7 +59,7 @@ namespace LudoApplication.GameApplication
         public static void EnterFinishArea(Player p, Token t, int moves)
         {
             t.Safe = true;
-            p.MoveFinishingToken(t, moves, t.FinishPosition + moves <= 5);
+            p.MoveFinishingToken(t, moves, t.FinishPosition + moves < 5);
         }
 
         public static bool FinishedToken(Token t, int finishingMove)

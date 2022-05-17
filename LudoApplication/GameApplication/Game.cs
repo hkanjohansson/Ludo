@@ -74,18 +74,21 @@ namespace LudoApplication.GameApplication
                         t.Safe = false;
                     }
                 }
-                else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves >= gb.Board.Length - 1 && !t.Safe)
+                else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves > gb.Board.Length - 1&& !t.Safe)
                 {
                     /*
                      * This statement only cares about when entering the finishing area. 
                      */
-                    GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - (gb.Board.Length - 1));
+                    
+                    GameRules.EnterFinishArea(p, t, t.RelativePosition + moves - gb.Board.Length);
                     Console.WriteLine($"Entered the finishing area with token #{t.Id}");
                 }
                 else if (!t.Finished && t.Safe)
                 {
                     /*
                      * TODO - Refactor into a separate method so it can be tested.
+                     * 
+                     *      - Remove commented code
                      */
                     int finishingMove = t.FinishPosition + moves;
 
@@ -93,7 +96,6 @@ namespace LudoApplication.GameApplication
                     {
                         t.Finished = true;
                         p.FinishedTokens.Add(t);
-                        p.Tokens[t.Id] = null;
                         p.FinishArea[t.FinishPosition] = 'X';
                         Console.WriteLine($"Token #{t.Colour[0]}{t.Id} finished.");
                         
@@ -101,6 +103,7 @@ namespace LudoApplication.GameApplication
                         {
                             gameRunning = false;
                             Console.WriteLine($"Player {PlayerTurn(turn) + 1} is the winner.");
+                            Console.ReadLine();
                         }
                     }
                     else
@@ -143,7 +146,7 @@ namespace LudoApplication.GameApplication
 
         public void TokenChoiceValidation(ref int tokenChoice)
         {
-            while (tokenChoice < 0 || tokenChoice > 3)
+            while (tokenChoice < 0 || tokenChoice > 3 || !int.TryParse($"{tokenChoice}", out tokenChoice))
             {
                 Console.WriteLine("Povide a valid choice of token. Valid choices are the integers 0, 1, 2 and 3. Choose token to move: ");
                 tokenChoice = int.Parse(Console.ReadLine());

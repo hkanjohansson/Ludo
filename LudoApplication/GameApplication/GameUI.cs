@@ -10,8 +10,30 @@ namespace LudoApplication.GameApplication
     {
         /*
          * TODO - Refactor code that is duplicated.
-         *      - Create an area for the players tokens.
+         *      
          */
+
+        public static void MainMenu()
+        {
+            /* TODO -
+             * Welcome!
+             * 
+             * This is a game of four players. Each player get four tokens. 
+             * 
+             * To be able to move out a token from 
+             * the home area, you have to roll a six. 
+             * 
+             * You cannot move past an opponents token in the field, but you can land on the same spot. If you land on
+             * the same spot as an opponent, you send that token back home.
+             * 
+             * When a token is about to finish. The last roll must result in an exact match of how many moves that is 
+             * left to finish. 
+             * 
+             * That all for the rules of the game. 
+             * 
+             * Press enter to start playing the game!
+             */
+        }
         public static void PrintUI(Gameboard gb, IList<Player> players)
         {
             StringBuilder sb = new();
@@ -26,7 +48,7 @@ namespace LudoApplication.GameApplication
             CreateRowWithFinishField(gb, players[1], sb, 6, 18, 4);
             CreateRow(gb, sb, 0, 5);
             sb.Append("  F  ");
-            CreateRow(gb, sb, 20, 25);
+            CreateRow(gb, sb, 19, 24);
             sb.Append('\n');
             CreateRow(gb, sb, 51, 51);
             CreateFinishField(players[0], sb, 0, gb);
@@ -36,11 +58,11 @@ namespace LudoApplication.GameApplication
             CreateFinishField(players[0], sb, 4, gb);
             sb.Append(" F ");
             sb.Append("F ");
-            CreateFinishField(players[3], sb, 0, gb);
-            CreateFinishField(players[3], sb, 1, gb);
-            CreateFinishField(players[3], sb, 2, gb);
-            CreateFinishField(players[3], sb, 3, gb);
             CreateFinishField(players[3], sb, 4, gb);
+            CreateFinishField(players[3], sb, 3, gb);
+            CreateFinishField(players[3], sb, 2, gb);
+            CreateFinishField(players[3], sb, 1, gb);
+            CreateFinishField(players[3], sb, 0, gb);
             CreateRow(gb, sb, 26, 26);
             sb.Append('\n');
             CreateRow(gb, sb, 50, 45);
