@@ -7,8 +7,6 @@ Here is an example of the gameboard
 ## Architecture
 The game is mainly build by three different building blocks (Directories): GameApplication, Players, and GameItems. 
 
-#### Remarks
-
 ### GameApplication
 This directory consists of the classes Game, GameRules and GameUI. 
 
