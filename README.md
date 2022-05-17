@@ -19,7 +19,7 @@ This directory consists of Die, Gameboard and Token.
 
 - Die: Has the field "numberOfSides" so you can choose to play the game with more or less than six sides of the die.
 - Gameboard: Is only an array of 52 character elements.
-- ####Token: Has the  fields 
+- #### Token: Has the  fields 
 
 ## Features
 
