@@ -5,7 +5,7 @@ namespace LudoApplication.GameItems
     public class Die
     {
         private int numberOfSides;
-        
+
         public Die(int numberOfSides)
         {
             this.numberOfSides = numberOfSides;

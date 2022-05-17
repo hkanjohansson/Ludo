@@ -75,7 +75,7 @@ namespace LudoApplication.GameApplication
                         t.Safe = false;
                     }
                 }
-                else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves > gb.Board.Length - 1&& !t.Safe)
+                else if (GameRules.Moveable(t, moves, gb) && t.RelativePosition + moves > gb.Board.Length - 1 && !t.Safe)
                 {
                     /*
                      * This statement only cares about when entering the finishing area. 
@@ -97,7 +97,7 @@ namespace LudoApplication.GameApplication
                         p.FinishedTokens.Add(t);
                         p.FinishArea[t.FinishPosition] = 'X';
                         Console.WriteLine($"Token #{t.Colour[0]}{t.Id} finished.");
-                        
+
                         if (p.FinishedTokens.Count == 4)
                         {
                             // If any player has has got all their tokens finished the game ends immediatly
@@ -119,7 +119,7 @@ namespace LudoApplication.GameApplication
                      */
                     GameRules.LandOnOpponent(t, gb, players, moves);
                     p.MoveToken(tokenChoice, moves, GameRules.Moveable(t, moves, gb));
-                    
+
                 }
                 GameUI.PrintUI(gb, players);
                 turn++;

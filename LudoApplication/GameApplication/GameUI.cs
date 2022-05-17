@@ -10,10 +10,13 @@ namespace LudoApplication.GameApplication
     {
         public static void MainMenu()
         {
-            Console.WriteLine("\nWelcome to a game of Ludo!\n" +
+            Console.WriteLine("" +
+                "\nWelcome to a game of Ludo!\n\n" +
+
                 "This is a game of four players. Each player\ngets four tokens. " +
                 "To be able to move out a token from the home\n" +
-                "area, you have to roll a six.\n\n" +
+                "area, you have to roll a six. A valid choice of token is between " +
+                "0 and 3. \n\n" +
 
                 "The game starts by all four players roll the die and\n" +
                 "the one with the highest roll get the initial move\n" +
@@ -26,7 +29,7 @@ namespace LudoApplication.GameApplication
                 "in an exact match of how many moves that is left to finish.\n\n" +
                 "That all for the rules of the game.\n\n" +
                 "Press enter to start playing the game!\n");
-            
+
             Console.ReadLine();
         }
         public static void PrintUI(Gameboard gb, IList<Player> players)
@@ -57,15 +60,15 @@ namespace LudoApplication.GameApplication
             {
                 CreateFinishField(players[0], sb, i, gb);
             }
-            
+
             sb.Append(" F ");
             sb.Append("F ");
-            
+
             for (int i = 4; i >= 0; i--)
             {
                 CreateFinishField(players[3], sb, i, gb);
             }
-            
+
             CreateRow(gb, sb, 25, 25);
             sb.Append('\n');
             CreateRow(gb, sb, 50, 45);
@@ -78,7 +81,7 @@ namespace LudoApplication.GameApplication
             {
                 CreateRowWithFinishField(gb, players[2], sb, 44 - i, 32 + i, 4 - i);
             }
-          
+
             TokenArea(players[2], 3, sb);
             CreateRow(gb, sb, 39, 37);
             TokenArea(players[3], 4, sb);
@@ -91,7 +94,7 @@ namespace LudoApplication.GameApplication
                 ShowTokensPositions(players[i], i + 1, sb);
                 sb.Append('\n');
             }
-         
+
             Console.WriteLine(sb.ToString());
         }
 
@@ -190,8 +193,6 @@ namespace LudoApplication.GameApplication
                     sb.Append("O ");
                 }
             }
-
-
         }
 
         public static void ShowTokensPositions(Player p, int playerId, StringBuilder sb)

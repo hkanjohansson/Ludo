@@ -51,7 +51,7 @@ namespace LudoApplication.GameApplication
                 Console.WriteLine("Landed on an empty spot or a spot where your own token were placed.");
                 return;
             }
-            
+
             Player opponent = players.Where(p => p.ColourOfTokens[0] == oppColour).FirstOrDefault();
             Token oppToken = opponent.Tokens.Where(t2 => t2.Position == t.Position + moves).FirstOrDefault();
 
@@ -67,7 +67,7 @@ namespace LudoApplication.GameApplication
             oppToken.RelativePosition = 0;
             gb.Board[t.Position + moves] = char.ToUpper(t.Colour[0]);
             Console.WriteLine($"Sent token {oppToken.Colour[0]}{oppToken.Id} back home.");
-            
+
         }
         public static void EnterFinishArea(Player p, Token t, int moves)
         {
